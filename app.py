@@ -1,16 +1,24 @@
 import streamlit as st
+from verification_translations import translations
 
+# 获取 URL 参数
 params = st.query_params
+lang = params.get("lang", ["English"])[0]
+strings = translations.get(lang, translations["English"])
 
-st.set_page_config(page_title="Translation Verification", layout="centered")
-st.title("Official Translation Verification")
+# 页面配置
+st.set_page_config(page_title=strings["page_title"], layout="centered")
+st.title(strings["main_title"])
 
-st.markdown("This page displays the original data submitted by the user to our company for the purpose of driver's license translation. Please verify the printed document against the following:")
-
+# 页面描述
+st.markdown(strings["description"])
 st.markdown("---")
 
+# 展示 info[...] 的内容
 for key, value in params.items():
-    st.write(f"**{key}**: {value}")
+    if key.startswith("info[") and key.endswith("]"):
+        clean_key = key[5:-1]  # 去掉 info[ 和 ]
+        st.write(f"**{clean_key}**: {value[0]}")
 
 st.markdown("---")
-st.info("Any inconsistency between this information and the printed translation document may indicate tampering. The company is not responsible for unauthorized modifications.")
+st.info(strings["footer_note"])
