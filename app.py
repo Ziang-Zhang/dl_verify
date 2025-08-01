@@ -3,11 +3,7 @@ from translate import translations  # 语言字典
 
 # 获取 URL 参数
 params = st.query_params
-lang = params.get("lang", ["English"])[0]
-
-st.write("🧪 Raw query params:", params)
-st.write(lang)
-
+lang = params.get("lang", "English")
 strings = translations.get(lang, translations["English"])
 
 # 页面配置
@@ -16,18 +12,16 @@ st.title(strings["main_title"])
 st.markdown(strings["description"])
 st.markdown("---")
 
-# 展示 info[...] 字段（遍历所有 info[字段名]）
-info_items = [
-    (key[5:-1], value[0] if value else "")
-    for key, value in params.items()
-    if key.startswith("info[") and key.endswith("]")
-]
-
-# 按字段名排序后展示（可选）
-info_items.sort()
-
-for field, val in info_items:
-    st.write(f"**{field}**: {val}")
+# 展示 info[...] 字段
+for key, value in params.items():
+    if key.startswith("info[") and key.endswith("]"):
+        display_key = key[5:-1]
+        # 判断是 list 还是字符串
+        if isinstance(value, list):
+            display_value = value[0]
+        else:
+            display_value = value
+        st.write(f"**{display_key}**: {display_value}")
 
 st.markdown("---")
 st.info(strings["footer_note"])
