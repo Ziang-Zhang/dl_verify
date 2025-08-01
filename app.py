@@ -1,7 +1,7 @@
 import streamlit as st
-from translate import translations
+from translate import translations  # 语言字典
 
-# 获取参数
+# 获取 URL 参数
 params = st.query_params
 lang = params.get("lang", ["English"])[0]
 strings = translations.get(lang, translations["English"])
@@ -12,12 +12,18 @@ st.title(strings["main_title"])
 st.markdown(strings["description"])
 st.markdown("---")
 
-# 展示 info[...] 字段
-for key, value in params.items():
-    if key.startswith("info[") and key.endswith("]"):
-        display_key = key[5:-1]  # 去掉 info[ 和 ]
-        display_value = value[0] if value else ""
-        st.write(f"**{display_key}**: {display_value}")
+# 展示 info[...] 字段（遍历所有 info[字段名]）
+info_items = [
+    (key[5:-1], value[0] if value else "")
+    for key, value in params.items()
+    if key.startswith("info[") and key.endswith("]")
+]
+
+# 按字段名排序后展示（可选）
+info_items.sort()
+
+for field, val in info_items:
+    st.write(f"**{field}**: {val}")
 
 st.markdown("---")
 st.info(strings["footer_note"])
