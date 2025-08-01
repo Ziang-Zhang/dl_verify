@@ -4,6 +4,7 @@ from translate import translations  # 语言字典
 # 获取 URL 参数
 params = st.query_params
 lang = params.get("lang", ["English"])[0]
+st.write(lang)
 strings = translations.get(lang, translations["English"])
 
 # 页面配置
