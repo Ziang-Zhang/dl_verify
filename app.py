@@ -11,7 +11,6 @@ st.set_page_config(page_title=strings["page_title"], layout="centered")
 st.title(strings["main_title"])
 st.markdown(strings["description"])
 st.markdown("---")
-st.markdown("hhhhhhhhhyangqifan")
 # 展示 info[...] 字段
 for key, value in params.items():
     if key.startswith("info[") and key.endswith("]"):
