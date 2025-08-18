@@ -20,7 +20,7 @@ st.markdown("---")
 
 # 加载密钥
 load_dotenv()
-secret = "5tWZaQL6luw5mgBHZZVKRg-BVYqsneYyINBnybgOgpQ="
+secret = os.getenv("FERNET_SECRET")
 if not secret:
     st.error("Fernet secret key is not set. Please check .env configuration.")
     st.stop()
