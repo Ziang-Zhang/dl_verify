@@ -111,7 +111,11 @@ try:
             st.stop()
     else:
         # v=2或无v: 解密为对象，走原解析
-        info_dict = decrypted_data
+        if isinstance(decrypted_data, dict):
+            info_dict = decrypted_data
+        else:
+            st.error("Invalid data format for v=2. Expected object.")
+            st.stop()
 
     # 显示信息
     if lang == "Arabic":
